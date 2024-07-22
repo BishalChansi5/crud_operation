@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  width: 90%;
+  margin: 100px auto;
+}
+.inputField {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  background: linear-gradient(to right, #13547a, #80d0c7);
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  /* gap: 20px; */
+}
+
+.input{
+    width: 25%;
+    height: auto;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    /* background: #ffffff; */
+    color: #fff;
+    font-size: 16px;
+}
+.input input{
+    padding: 4px;
+    width: 60%;
+    margin-left: 10px;
+}
+
+.inputField .image input{
+    width: 60%;
+    max-height: 400px;
+}
+.action{
+ 
+    width: 100%;
+}
+.btn{
+    padding: 10px 2px;
+    border: none;
+    border-radius: 5px;
+    background: green;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    margin: 0 4px;
+    width: 40%;
+}
+
+.action .delete{
+    background-color: red;
+}
+.inputField .input button{
+    padding: 12px 24px;
+    width: 30%;
+    border-radius: 4px;
+    outline: none;
+    color: #fff;
+    border: 1px solid white;
+    font-size: 16px;
+}
+.inputField .input button:hover{
+    cursor: pointer;
+}
