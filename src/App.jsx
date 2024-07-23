@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { ToastContainer , toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-  
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
   const url = import.meta.env.VITE_URL;
   const authCode = import.meta.env.VITE_AUTHCODE;
@@ -15,11 +15,12 @@ const App = () => {
   const [comment, setComment] = useState("");
   const [user, setUser] = useState("");
   const [flag, setFlag] = useState(true);
-  const [image , setImage] = useState("");
+  const [image, setImage] = useState("");
+  const [id, setId] = useState("");
 
   useEffect(() => {
     handleShowPost();
-  }, [showData]);
+  }, []);
 
   const handleShowPost = () => {
     fetch(url, {
@@ -39,81 +40,118 @@ const App = () => {
   };
 
   const handleEdit = (id) => {
+    // console.log(editData)
     const filteredData = showData.filter((data) => data.TestimonialID === id);
-    console.log(filteredData)
+    // console.log(filteredData);
     setName(filteredData[0].FullName);
     setPosition(filteredData[0].Position);
     setEmail(filteredData[0].Email);
     setComName(filteredData[0].ComName);
     setComment(filteredData[0].Comment);
+    setId(filteredData[0].TestimonialID);
     setFlag(false);
   };
+
   const handleUpdate = async () => {
-    console.log(showData.length)
-    // const api = await fetch(url, {
-    //   method: "POST",
-    //   headers: {
-    //     "signature": "p0m76",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     UserID: `${user}`,
-    //     Flag: "U",
-    //     // TestimonialID: ``
-    //     FullName: `${name}`,
-    //     Position: `${position}`,
-    //     Email: `${email}`,
-    //     ComName: `${comName}`,
-    //     Comment: `${comment}`,
-    //     UserImage: `${image}`,
-    //     AuthCode: `${authCode}`,
-      // }),
-    // })
-    // const apiData = await api.json()
-    // console.log(apiData)
+    if(user === ''){
+      toast.error("Enter your User ID");
+      return;
+    }
+    const api = await fetch(url, {
+      method: "POST",
+      headers: {
+        signature: "p0m76",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        UserID: user,
+        Flag: "U",
+        TestimonialID: `${id}`,
+        FullName: name,
+        Position: position,
+        Email: email,
+        UserImage: image,
+        ComName: comName,
+        Comment: comment,
+        AuthCode: authCode,
+      }),
+    });
+    const apiData = await api.json();
+    handleShowPost();
+    handleClear();
+    toast.success("Updated Successfully");
   };
   const handleAdd = async () => {
+    if(user === ''){
+      toast.error("Enter your User ID");
+      return;
+    }
     const api = await fetch(url, {
       method: "POST",
       headers: {
-        "signature": "p0m76",
+        signature: "p0m76",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        UserID: `${user}`,
+        UserID: user,
         Flag: "I",
-        FullName: `${name}`,
-        Position: `${position}`,
-        Email: `${email}`,
-        ComName: `${comName}`,
-        Comment: `${comment}`,
-        UserImage: `${image}`,
-        AuthCode: `${authCode}`,
+        FullName: name,
+        Position: position,
+        Email: email,
+        ComName: comName,
+        Comment: comment,
+        UserImage: image,
+        AuthCode: authCode,
       }),
-    })
-    const apiData = await api.json()
+    });
+    const apiData = await api.json();
     // console.log(apiData)
-    toast.success('Successfully Added')
+    handleShowPost();
+    handleClear();
+    toast.success("Successfully Added");
   };
   const handleDelete = async (id) => {
-    const filteredData = showData.filter(data => data.TestimonialID == id)
-    // console.log(typeof(filteredData[0].TestimonialID))
+    const userId = prompt("Enter your User Id to delete")
+    if(userId === null){
+      toast.error("No User ID entered");
+      return;
+    }
+    if(userId <= 0){
+      toast.error("Incorrect User ID");
+      return;
+    }
+  
+    const filteredData = showData.filter((data) => data.TestimonialID == id);
     // setUser()
-    const api = await fetch(url, {
-      method: "POST",
-      headers: {
-        "signature": "p0m76",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        UserID: `1`,
-        Flag: "R",
-        TestimonialID: `${filteredData[0].TestimonialID}`,
-        AuthCode: `${authCode}`,
-      }),
-    })
-    const apiData = await api.json()
-    toast.success('Successfully Deleted')
+    if(window.confirm("Are you sure you want to delete this")){
+      const api = await fetch(url, {
+        method: "POST",
+        headers: {
+          signature: "p0m76",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          UserID: userId,
+          Flag: "R",
+          TestimonialID: `${filteredData[0].TestimonialID}`,
+          AuthCode: `${authCode}`,
+        }),
+      });
+      const apiData = await api.json();
+      handleShowPost();
+      toast.success("Successfully Deleted");
+    }
+  };
+  const handleClear = () => {
+    setName("");
+    setPosition("");
+    setEmail("");
+    setComName("");
+    setComment("");
+    setId("");
+    setImage("");
+    setUser("");
+    setFlag(true);
   };
   const columns = [
     {
@@ -152,7 +190,10 @@ const App = () => {
           <button className="btn" onClick={() => handleEdit(row.TestimonialID)}>
             Edit
           </button>
-          <button className="btn delete" onClick={() =>handleDelete(row.TestimonialID)}>
+          <button
+            className="btn delete"
+            onClick={() => handleDelete(row.TestimonialID)}
+          >
             Delete
           </button>
         </div>
@@ -233,16 +274,17 @@ const App = () => {
             <input type="text" id="image" />
           </label>
         </div>
-        <div className="input">
+        <div className="input clear">
           {flag ? (
             <button style={{ backgroundColor: "blue" }} onClick={handleAdd}>
-              ADD
+              Add
             </button>
           ) : (
             <button style={{ backgroundColor: "green" }} onClick={handleUpdate}>
               Update
             </button>
           )}
+          <button onClick={handleClear}>Clear</button>
         </div>
       </div>
       <DataTable
