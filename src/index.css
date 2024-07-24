@@ -8,67 +8,74 @@
   margin: 100px auto;
 }
 .inputField {
-  width: 100%;
+  position: absolute;
+  width: 90%;
   height: auto;
   padding: 10px;
   background: linear-gradient(to right, #13547a, #80d0c7);
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  z-index: 3;
+  /* display: none; */
   /* gap: 20px; */
 }
 
-.input{
-    width: 25%;
-    height: auto;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    /* background: #ffffff; */
-    color: #fff;
-    font-size: 16px;
+.input {
+  width: 25%;
+  height: auto;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  /* background: #ffffff; */
+  color: #fff;
+  font-size: 16px;
 }
-.input input{
-    padding: 4px;
-    width: 60%;
-    margin-left: 10px;
-}
-
-.inputField .image input{
-    width: 60%;
-    max-height: 400px;
-}
-.action{
- 
-    width: 100%;
-}
-.btn{
-    padding: 10px 2px;
-    border: none;
-    border-radius: 5px;
-    background: green;
-    color: #fff;
-    font-size: 12px;
-    cursor: pointer;
-    margin: 0 4px;
-    width: 50%;
+.input input {
+  padding: 4px;
+  width: 60%;
+  margin-left: 10px;
 }
 
-.action .delete{
-    background-color: red;
+.inputField .image input {
+  width: 60%;
+  max-height: 400px;
 }
-.inputField .input button{
-    padding: 12px 12px;
-    width: 30%;
-    border-radius: 4px;
-    outline: none;
-    color: #fff;
-    border: 1px solid white;
-    font-size: 12px;
+.action {
+  width: 100%;
 }
-.inputField .input button:hover{
-    cursor: pointer;
+.btn {
+  padding: 10px 2px;
+  border: none;
+  border-radius: 5px;
+  background: green;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  margin: 0 4px;
+  width: 50%;
 }
-.inputField .clear button{
-    background-color: red;
+
+.action .delete {
+  background-color: red;
+}
+.inputField .input button , .add button{
+  padding: 12px 12px;
+  width: 30%;
+  border-radius: 4px;
+  outline: none;
+  color: #fff;
+  border: 1px solid white;
+  font-size: 12px;
+}
+.inputField .input button:hover ,.add button:hover {
+  cursor: pointer;
+}
+.inputField .clear button {
+  background-color: red;
+}
+.search input {
+    margin-top: 10px;
+    padding: 8px;
+    width: 20%;
 }
